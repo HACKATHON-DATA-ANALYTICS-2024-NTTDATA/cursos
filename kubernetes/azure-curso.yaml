@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curso
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curso
+  template:
+    metadata:
+      labels:
+        app: curso
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: curso
+        image: carlodelgado/huawei-cursos:latest
+        env:
+        - name: FOO
+          value: "bar"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 7000
+          name: curso
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: curso
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7000
+  selector:
+    app: curso
