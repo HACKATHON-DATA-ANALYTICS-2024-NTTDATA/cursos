@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class CursosApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CursosApplication.class, args);
+		SpringApplication.run(CursosApplication.class, args); 
 	}
 
 	
