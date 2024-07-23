@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.server.ServerRequest;
+
+import org.springframework.web.reactive.function.server.ServerResponse;
+import com.google.common.net.MediaType;
 
 import hackathon.nttdata.coderpath.cursos.documents.Cursos;
 import hackathon.nttdata.coderpath.cursos.service.CursoService;
@@ -68,11 +72,29 @@ public class CursoController {
 	}
 
 	@GetMapping("/id/{id}")
-	public Mono<Cursos> searchById(@PathVariable String id) {
+	public Mono<ResponseEntity<Cursos>> searchById(@PathVariable("id") String id) {
 		log.info("Cursos Asset id: " + service.findCursoById(id) + " con codigo: " + id);
-		return service.findCursoById(id);
+		return service.findCursoById(id)
+				  .map(m -> new ResponseEntity<>(m, HttpStatus.OK))
+	                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	@GetMapping("/idmap/{id}")
+	public Mono<ResponseEntity<Cursos>> getCursosById(@PathVariable("id") String id) {
+		Mono<Cursos> cursos = service.findCursoById(id);
+		return cursos.map(ResponseEntity::ok).defaultIfEmpty(ResponseEntity.notFound().build());
+	}
+
+	@GetMapping("/idmapres/{id}")
+	public Mono<ResponseEntity<Cursos>> getCursoxById(@PathVariable("id") String id) {
+		return service.findCursoById(id).map(curso -> ResponseEntity.ok(curso))
+				.defaultIfEmpty(ResponseEntity.notFound().build());
+	}
+
+	
+	
+	
+	
 	@PostMapping("/create-cursos")
 	public Mono<Cursos> createCursos(@Valid @RequestBody Cursos cursoAsset) {
 		log.info("Cursos hackathon NTTTDATA create: " + service.saveCurso(cursoAsset));

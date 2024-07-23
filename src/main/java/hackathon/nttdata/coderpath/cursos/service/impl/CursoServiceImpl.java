@@ -78,7 +78,9 @@ public class CursoServiceImpl implements CursoService {
 	@Override
 	public Mono<Cursos> findCursoById(String id) {
 		// TODO Auto-generated method stub
+
 		return cursoRepository.findById(id);
+				
 	}
 
 	@Override
@@ -130,6 +132,9 @@ public class CursoServiceImpl implements CursoService {
 		// .flatMap(response -> response.bodyToMono(Cursos.class));
 	}
 
+	
+	
+	
 	@Override
 	public Mono<Void> deleteExamenes(String id) {
 		// TODO Auto-generated method stub
