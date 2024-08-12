@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +25,9 @@ import hackathon.nttdata.coderpath.cursos.documents.dtowebclient.Examenes;
 @Document(collection = "cursos")
 public class Cursos {
 
-	@Id
+    @Id
+//	@MongoId(FieldType.OBJECT_ID)
+//	@MongoId
 	private String id;
 
 	private String nombre;
